@@ -28,3 +28,6 @@ During launch (while rocket is in motion) / when button is pressed
 - Acceleration... (9.8 m/s is gravity) 
 - Power of thrust must be greater than weight*gravity 
 - 
+
+
+Basically, the name of each rocket component is used to identify a separate object in a scene. 

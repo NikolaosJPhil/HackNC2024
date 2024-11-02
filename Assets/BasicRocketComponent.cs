@@ -1,10 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+//private List<BasicRocketComponent> children = new List<BasicRocketComponent>();
+
 public class BasicRocketComponent{
-
-    private List<BasicRocketComponent> children = new List<BasicRocketComponent>();
-
     public float relativeCenterOfMassX;
     public float relativeCenterOfMassY;
     public float mass;
@@ -15,7 +14,7 @@ public class BasicRocketComponent{
     private string parent = "";
 
 
-// default is 0
+    // default is 0
     public float fuelLeft = 0;
 
     public BasicRocketComponent(float massOffsetX, float massOffsetY, float massKG, float accelerationForce, float fuel){
