@@ -1,22 +1,32 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class RocketPhysics : MonoBehaviour
 {
 
-    BasicRocketComponent rocketObject; 
+    BasicRocketComponent rocketObject;
 
-    //public float xPosition;
-    //public float yPosition;
+    public bool hasStarted;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rocketObject = new BasicRocketComponent(new Vector2(0f,0f), 300f,  new Vector2(0f,350f*10f), 400.0);
+        hasStarted = false;
+        rocketObject = new BasicRocketComponent(0,0,300,3300,150);
     }
  
     // Update is called once per frame
     void Update()
     {
         
+        if(Input.GetKeyDown("space")){
+            hasStarted = true;
+        }
+
+        if(hasStarted){
+            rocketObject.yVelocity += rocketObject.y
+            transform.position += new Vector3(0, 0.001f, 0);
+        }
     }
 }

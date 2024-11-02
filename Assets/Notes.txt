@@ -18,3 +18,13 @@ Every component can return a center of mass, rotation, and an acceleration vecto
         --Rocket--
 
         --Engine--
+        
+       --Thruster--
+
+During launch (while rocket is in motion) / when button is pressed
+- fuel decreases
+- weight decreases IF part of the rocket falls off 
+- Velocity should increase until it runs out of gravity, remains constant for a bit, when velocity reaches 0 - game over
+- Acceleration... (9.8 m/s is gravity) 
+- Power of thrust must be greater than weight*gravity 
+- 

@@ -1,8 +1,10 @@
-public class Thruster: BasicRocketComponent {
 
-    private string thruster;
 
-    private float ThrusterMass;
+public class Thruster {
+
+    private string thruster = "";
+
+    private float thrusterMass = 0;
 
     private float ThrusterAcceleration;
 
@@ -12,10 +14,11 @@ public class Thruster: BasicRocketComponent {
     //How much fuel the thruster burns per second.
     private float burnRate;
 
-    public Thruster(string name, float mass, float acceleration){
-        thruster == name;
+    /*public Thruster(string name, float mass, float acceleration): base(0,0,0,0,0){
+        
+        thruster = name;
         ThrusterMass = mass;
         ThrusterAcceleration = acceleration;
-    }
+    }*/
 
 }
