@@ -1,0 +1,20 @@
+We'll split the rocket into its ocmponents
+Each type of component will have its associated class
+Each instance of a component has a modifier it contributes to the entire spaceship.
+
+-Main Body: Acts as the core of the ship and all other parts must attach to it. May have a built in thruster and fuel tank.
+-Sub Body: Attaches to the main body. Can act as another connection point for other parts.
+-Thruster: What makes the ship "go". More powerful thrusters can carry hervier loads.
+
+Camera follows rocket. ground is static
+Can sever smaller boosters and nay other additional components while in flight.
+
+*-
+
+
+
+Every component can return a center of mass, rotation, and an acceleration vector
+
+        --Rocket--
+
+        --Engine--
