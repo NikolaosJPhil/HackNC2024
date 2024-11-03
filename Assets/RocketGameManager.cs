@@ -8,22 +8,34 @@ using static GetDefaultComponentConfigs;
 public class RocketGameManager
 {
 
+    public static List<BasicRocketComponent> totalComponents = new List<BasicRocketComponent>();
+    public static List<BasicRocketComponent> activeComponents = new List<BasicRocketComponent>();
+    public static int discardedComponentCount = 0;
+
+    public static float totalFuel = 200f;
+    public static float totalFuelBurnt = 0f;
+    public static float fuelBurnRate = 1f;
+    public static float totalMass = 1f;
+    public static float totalThrust = 1500f;
+    public static bool hasStarted = false;
+
+
     //private static bool 
     public static void checkKeys(){
         //starts the game when you press spacebar
         if(Input.GetKeyDown("space")){
-            RocketPhysics.hasStarted = true;
+            hasStarted = true;
         }
         //Resets the game
         if(Input.GetKeyDown("backspace")){
-            RocketPhysics.hasStarted = false;
+            hasStarted = false;
             totalComponents.Clear();
             activeComponents.Clear();
             discardedComponentCount = 0;
             totalFuel = 0f;
             totalMass = 0f;
-            
         }
+            
         //adds fuel tank
         if(Input.GetKeyDown("w")){
             GameObject newObj = new GameObject("" + totalComponents.Count);
@@ -33,7 +45,11 @@ public class RocketGameManager
             SpriteRenderer rocketTexture = newObj.AddComponent<SpriteRenderer>();
         }
         if(Input.GetKeyDown("s")){
-            
+            GameObject newObj = new GameObject("" + totalComponents.Count);
+            RocketPhysics phys = newObj.AddComponent<RocketPhysics>();
+            phys.rocketObject = GetDefaultComponentConfigs.getDefaultBoosters();
+
+            SpriteRenderer rocketTexture = newObj.AddComponent<SpriteRenderer>();
         }
     }
 
@@ -54,14 +70,4 @@ public class RocketGameManager
         totalMass -= component.getCurrentMass();
         fuelBurnRate -= component.getFuelBurnRate();
     }
-
-    public static List<BasicRocketComponent> totalComponents = new List<BasicRocketComponent>();
-    public static List<BasicRocketComponent> activeComponents = new List<BasicRocketComponent>();
-    public static int discardedComponentCount = 0;
-
-    public static float totalFuel = 0f;
-    public static float totalFuelBurnt = 0f;
-    public static float fuelBurnRate = 0f;
-    public static float totalMass = 0f;
-    public static float totalThrust = 0f;
 }

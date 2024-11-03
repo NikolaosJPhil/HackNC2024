@@ -4,7 +4,6 @@ using static BasicRocketComponent;
 public class GetDefaultComponentConfigs{
 
     public static BasicRocketComponent getDefaultCockpit(){
-        
         return new BasicRocketComponent(0,30,1090,80);
     }
 
@@ -13,7 +12,7 @@ public class GetDefaultComponentConfigs{
     }
 
     public static BasicRocketComponent getDefaultBoosters(){
-        return new BasicRocketComponent(0,30,0,350);
+        return new BasicRocketComponent(0,30,2500,0);
     }
 
 }

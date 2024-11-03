@@ -22,7 +22,6 @@ public class RocketPhysics : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        hasStarted = false;
         rocketObject = GetDefaultComponentConfigs.getDefaultCockpit();
     }
  
@@ -37,10 +36,10 @@ public class RocketPhysics : MonoBehaviour
         
 
         //runs the game if it has started
-        if(hasStarted){
+        if(RocketGameManager.hasStarted){
 
             rocketObject.yVelocity += rocketObject.getAcceleration(RocketGameManager.totalThrust,  RocketGameManager.totalMass, timeElapsed);
-            rocketObject.burnFuel(timeElapsed);
+            rocketObject.burnFuel(RocketGameManager.fuelBurnRate, timeElapsed);
             
 
             if((transform.position + new Vector3(0, rocketObject.yVelocity * timeElapsed, 0)).y > rocketObject.yOffset){

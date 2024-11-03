@@ -11,7 +11,7 @@ public class BasicRocketComponent{
     //in N per liter: should be around 45
     private float fuelEnergy = 50;
     // as a fraction of velocity
-    private float airResistance = 0.5f;
+    private float airResistance = 0.05f;
 
     public float relativeCenterOfMassX;
 
@@ -32,6 +32,7 @@ public class BasicRocketComponent{
         this.emptyMass = massKG;
         this.fuelLeft = fuel;
         this.enginePower = accelerationForce;
+        //RocketGameManager.addComponent(this);
     }
 
     public float getCurrentMass(){
@@ -39,7 +40,7 @@ public class BasicRocketComponent{
     }
 
     public float getFuelBurnRate(){
-        return enginePower/fuelEnergy;
+        return 20;
     }
 
     private float getFuelBurnt(float time){
@@ -47,11 +48,20 @@ public class BasicRocketComponent{
     }
 
     // depracates the fuel by the required amount. 
-    public void burnFuel(float time){
-        this.fuelLeft -= getFuelBurnt(time);
+    public void burnFuel(float burnRate, float time){
+        this.fuelLeft -= burnRate;
+        float initialFuel = RocketGameManager.totalFuel;
+        RocketGameManager.totalFuel -= burnRate;
+
         if(this.fuelLeft < 0){
             this.fuelLeft = 0;
         }
+
+        if(RocketGameManager.totalFuel < 0){
+            RocketGameManager.totalFuel = 0;
+        }
+
+        RocketGameManager.totalMass -= (initialFuel-RocketGameManager.totalFuel)*fuelDensity;
     }
 
     public float getGravityPerSecond(){
@@ -65,8 +75,8 @@ public class BasicRocketComponent{
     }
 
     public float getCurrentEnginePower(){
-        float engineForce = enginePower;
-        if(this.fuelLeft <= 0){
+        float engineForce = RocketGameManager.totalThrust;
+        if(RocketGameManager.totalFuel - RocketGameManager.totalFuelBurnt <= 0){
             engineForce = 0;
         }
         return engineForce;
@@ -74,7 +84,7 @@ public class BasicRocketComponent{
 
     //returns the acceleration after factoring in gravity and air resistence
     public float getAcceleration(float power, float currentMass, float time){
-        return (power/currentMass - this.getGravityPerSecond() - this.getAirResistence())*time;
+        return (getCurrentEnginePower()/currentMass - this.getGravityPerSecond() - this.getAirResistence())*time;
     }
 
     public float explode(){
