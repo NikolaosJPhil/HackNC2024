@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using static RocketGameManager;
 
 //private List<BasicRocketComponent> children = new List<BasicRocketComponent>();
 
@@ -19,6 +20,8 @@ public class BasicRocketComponent{
     public float xVelocity = 0;
     public float yVelocity = 0;
 
+    public float yOffset = 0;
+
     public float enginePower = 0;
 
     // default is 0
@@ -35,7 +38,7 @@ public class BasicRocketComponent{
         return this.emptyMass + (this.fuelLeft * this.fuelDensity);
     }
 
-    private float getFuelBurnRate(){
+    public float getFuelBurnRate(){
         return enginePower/fuelEnergy;
     }
 
@@ -70,8 +73,8 @@ public class BasicRocketComponent{
     }
 
     //returns the acceleration after factoring in gravity and air resistence
-    public float getAcceleration(float time){
-        return (this.getCurrentEnginePower()/this.getCurrentMass() - this.getGravityPerSecond() - this.getAirResistence())*time;
+    public float getAcceleration(float power, float currentMass, float time){
+        return (power/currentMass - this.getGravityPerSecond() - this.getAirResistence())*time;
     }
 
     public float explode(){

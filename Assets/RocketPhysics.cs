@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Time;
 using static RocketGameManager;
+using static GetDefaultComponentConfigs;
 
 public class RocketPhysics : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class RocketPhysics : MonoBehaviour
     void Start()
     {
         hasStarted = false;
-        rocketObject = new BasicRocketComponent(0,30,1090,80);
+        rocketObject = GetDefaultComponentConfigs.getDefaultCockpit();
     }
  
     // Update is called once per frame
@@ -38,15 +39,15 @@ public class RocketPhysics : MonoBehaviour
         //runs the game if it has started
         if(hasStarted){
 
-            rocketObject.yVelocity += rocketObject.getAcceleration(timeElapsed);
+            rocketObject.yVelocity += rocketObject.getAcceleration(RocketGameManager.totalThrust,  RocketGameManager.totalMass, timeElapsed);
             rocketObject.burnFuel(timeElapsed);
             
 
-            if((transform.position + new Vector3(0, rocketObject.yVelocity, 0)).y > 0){
-                transform.position += new Vector3(0, rocketObject.yVelocity, 0);
+            if((transform.position + new Vector3(0, rocketObject.yVelocity * timeElapsed, 0)).y > rocketObject.yOffset){
+                transform.position += new Vector3(0, rocketObject.yVelocity * timeElapsed, 0);
             }
             else{
-                transform.position = new Vector3(0, 0, 0);
+                transform.position = new Vector3(0, rocketObject.yOffset, 0);
                 if(rocketObject.yVelocity < 20){
                     rocketObject.yVelocity = 0;
                 }
