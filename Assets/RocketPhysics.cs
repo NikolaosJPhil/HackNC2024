@@ -1,13 +1,19 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Time;
+using static RocketGameManager;
 
 public class RocketPhysics : MonoBehaviour
 {
 
-    BasicRocketComponent rocketObject;
 
-    public bool hasStarted;
+    public BasicRocketComponent rocketObject;
+
+
+    public static void begin(){
+        hasStarted = true;
+    }
+    public static bool hasStarted;
 
     private float oldTime = 0;
 
@@ -24,11 +30,10 @@ public class RocketPhysics : MonoBehaviour
     {
         //gets the time since last frame for acceleration and fuel burning calculations
         float timeElapsed = Time.time-this.oldTime;
+
+        //Manages user input
+        RocketGameManager.checkKeys();
         
-        //starts the game when you press spacebar
-        if(Input.GetKeyDown("space")){
-            hasStarted = true;
-        }
 
         //runs the game if it has started
         if(hasStarted){
@@ -42,6 +47,12 @@ public class RocketPhysics : MonoBehaviour
             }
             else{
                 transform.position = new Vector3(0, 0, 0);
+                if(rocketObject.yVelocity < 20){
+                    rocketObject.yVelocity = 0;
+                }
+                else{
+                    rocketObject.explode();
+                }
             }
         }
 

@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 public class BasicRocketComponent{
 
-    //in grams per liter
+    //in kg per liter
     private float fuelDensity = 0.810f;
     //in N per liter: should be around 45
     private float fuelEnergy = 50;
     // as a fraction of velocity
-    private float airResistance = 0.2f;
+    private float airResistance = 0.5f;
 
     public float relativeCenterOfMassX;
 
@@ -18,8 +18,6 @@ public class BasicRocketComponent{
 
     public float xVelocity = 0;
     public float yVelocity = 0;
-
-    private string parent = "";
 
     public float enginePower = 0;
 
@@ -71,10 +69,20 @@ public class BasicRocketComponent{
         return engineForce;
     }
 
+    //returns the acceleration after factoring in gravity and air resistence
     public float getAcceleration(float time){
         return (this.getCurrentEnginePower()/this.getCurrentMass() - this.getGravityPerSecond() - this.getAirResistence())*time;
     }
 
-    public void addChild()
+    public float explode(){
+        return 0;
+    }
+
+    public void addChild(){
+
+    }
+
+    public List<BasicRocketComponent> children = new List<BasicRocketComponent>();
+    public List<BasicRocketComponent> parent = new List<BasicRocketComponent>();
 
 }
