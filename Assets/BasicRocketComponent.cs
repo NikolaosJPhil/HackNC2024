@@ -4,40 +4,77 @@ using System.Collections.Generic;
 //private List<BasicRocketComponent> children = new List<BasicRocketComponent>();
 
 public class BasicRocketComponent{
+
+    //in grams per liter
+    private float fuelDensity = 0.810f;
+    //in N per liter: should be around 45
+    private float fuelEnergy = 50;
+    // as a fraction of velocity
+    private float airResistance = 0.2f;
+
     public float relativeCenterOfMassX;
-    public float relativeCenterOfMassY;
-    public float mass;
+
+    public float emptyMass;
 
     public float xVelocity = 0;
     public float yVelocity = 0;
 
     private string parent = "";
 
+    public float enginePower = 0;
 
     // default is 0
     public float fuelLeft = 0;
 
-    public BasicRocketComponent(float massOffsetX, float massOffsetY, float massKG, float accelerationForce, float fuel){
+    public BasicRocketComponent(float massOffsetX, float massKG, float accelerationForce, float fuel){
         this.relativeCenterOfMassX = massOffsetX;
-        this.relativeCenterOfMassY = massOffsetY;
-        this.mass = massKG;
+        this.emptyMass = massKG;
         this.fuelLeft = fuel;
+        this.enginePower = accelerationForce;
     }
 
-    public void addParent(string newParentName, float positionOffsetX, float positionOffsetY){
-        //Unity uses strings to identify objects in a scene, like names. 
-        parent = newParentName;
+    public float getCurrentMass(){
+        return this.emptyMass + (this.fuelLeft * this.fuelDensity);
+    }
 
-        //To access the parent's object:
-        GameObject parentObject = new GameObject(newParentName);
+    private float getFuelBurnRate(){
+        return enginePower/fuelEnergy;
+    }
 
-        if(parentObject != null){
-           // BasicRocketComponent parentComponent = parentObject.GetComponent(typeOf(RocketPhysics));
+    private float getFuelBurnt(float time){
+        return time*getFuelBurnRate();
+    }
+
+    // depracates the fuel by the required amount. 
+    public void burnFuel(float time){
+        this.fuelLeft -= getFuelBurnt(time);
+        if(this.fuelLeft < 0){
+            this.fuelLeft = 0;
         }
-
-        //refreshes the center of mass
-        this.relativeCenterOfMassX = -1* positionOffsetX;
-        this.relativeCenterOfMassY = -1* positionOffsetY;
     }
+
+    public float getGravityPerSecond(){
+        return 9.8f;
+    }
+
+    public float getAirResistence(){
+        //square the absolute velocity and then multiply by the air resistance factor. 
+        //Returns positive for positive velocities and negative for negative ones
+        return this.yVelocity* this.yVelocity * airResistance * ((yVelocity > 0)? 1 : -1);
+    }
+
+    public float getCurrentEnginePower(){
+        float engineForce = enginePower;
+        if(this.fuelLeft <= 0){
+            engineForce = 0;
+        }
+        return engineForce;
+    }
+
+    public float getAcceleration(float time){
+        return (this.getCurrentEnginePower()/this.getCurrentMass() - this.getGravityPerSecond() - this.getAirResistence())*time;
+    }
+
+    public void addChild()
 
 }
